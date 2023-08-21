@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobeinabox-deployment
+  labels:
+    app: jobeinabox
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: jobeinabox
+  template:
+    metadata:
+      labels:
+        app: jobeinabox
+    spec:
+      containers:
+      - name: jobeinabox-container
+        image: etutorplusplus/jobeinabox:latest
+        env:
+        - name: DISPATCHER_HOST
+          value: "10.78.59.72"
+        - name: DISPATCHER_PORT
+          value: "8081"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jobeinabox-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: jobeinabox
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
