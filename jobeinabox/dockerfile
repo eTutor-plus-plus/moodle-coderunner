@@ -1,0 +1,26 @@
+#######################################################################################
+
+# Custom dockerfile for the Jobe-server with the python module "requests" installed, 
+# the number of simultaneous jobs and the correct timezone set.
+
+# Build image with this command:
+# docker build . -t etutorplusplus/jobeinabox --build-arg TZ="Europe/Vienna" [--build-arg njobs=16]
+
+########################################################################################
+# Use the "official" image as the base
+FROM trampgeek/jobeinabox:latest
+
+# Number of simultaneous jobs the jobe server will allow 
+ARG njobs=8
+
+# Modify the config.php file using sed to set the number of simultaneous jobs
+RUN perl -pi -e "s/\$config\['jobe_max_users'\] = 8;/\$config\['jobe_max_users'\] = ${njobs};/" /var/www/html/jobe/application/config/config.php
+
+# Install the python requests module
+RUN pip install requests
+
+# Add the entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
