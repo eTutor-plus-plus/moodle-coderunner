@@ -1,7 +1,11 @@
-# Coderunner Customization
-This repository contains files with which the Coderunner Moodle Plugin can be extended.
-Currently, a mode for the Ace-Editor to support syntax highlighting for Relational Algebra questions is provided.
+# Coderunner
+This repository contains files to connect the Moodle Coderunner Plugin with the etutor++ system.
 
+[ace-editor](./ace-editor/) Contains files to extend the syntax highlighting of the Ace editor that is used by the plugin. Currently a mode for Relational Algebra questions is provided.
+
+[jobeinabox](./jobeinabox/) Contains files for the [customer docker image](https://hub.docker.com/repository/docker/etutorplusplus/jobeinabox/general) of [jobeinabox](https://hub.docker.com/r/trampgeek/jobeinabox/), the Jobe server required for the plugin. 
+This custom image has the correct timezone set by the default, the requests python module already installed, and the number of simultaneous jobs that the jobe server will process can be set as a build-argument during the build-process of the image.
+Also, a kubernetes configuration (coming soon) is provided, that defines a deployment and a service for the jobe server.
 ## Extending the Coderunner Moodle Plugin with custom modes
 
 1. Paste the desired mode-*.js file into the plugin directory, under /ace.
@@ -11,11 +15,11 @@ Currently, a mode for the Ace-Editor to support syntax highlighting for Relation
 - /ace/ext-options.js
 - /ace/ext-modelist.js
 
-by adding the following entry to the *supportedModes* dictionary (example for [Relational Algebra](./mode-relalg.js):
+by adding the following entry to the *supportedModes* dictionary (example for [Relational Algebra](./ace-editor/mode-relalg.js)):
 
-´´´
-RelAlg: ["relalg"]
-´´´
+
+*RelAlg: ["relalg"]*
+
 
 3. Purge the caches in Moodle under Site Administration -> Development -> Purge Caches
 4. When creating a Coderunner question, under *Advanced Customisation*, set the *Ace Language* accodordingly, e.g. **relalg**.
@@ -29,7 +33,7 @@ RelAlg: ["relalg"]
 ## Setting up the Moodle Coderunner Plugin to work with the eTutor++ (dke-dispatcher)
 
 1. After installing the plugin, you might have to change the Moodle security settings to enable communication with the Jobe server.
-2. Install the requests module on your Jobe server using pip.
+2. Install the requests module on your Jobe server using pip (or use the custom image).
 3. Add a Coderunner question to the question bank.
 - Use python3 as question type.
 - Under Customisation, add the [template](./template.py).
