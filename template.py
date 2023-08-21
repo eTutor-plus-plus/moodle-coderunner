@@ -32,7 +32,7 @@ submission_id = response.json()['submissionId']
 grading_url = f'http://dke-dispatcher:8080/grading/{submission_id}'
 
 # Send request to fetch grading
-grading_response = requests.get(grading_url) # todo: add delay??
+grading_response = requests.get(grading_url)
 
 # Parse the JSON response
 grading_data = grading_response.json()
@@ -51,7 +51,6 @@ if action == 'run':
     criterion = 'No Syntax Errors'
 
 ## 4. Construct feedback
-# todo: do not indicate correctness for diagnose submission
 feedback = {
     'fraction': mark / 1,
     'result': result,
