@@ -5,7 +5,7 @@ metadata:
   labels:
     app: jobeinabox
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: jobeinabox
@@ -16,13 +16,11 @@ spec:
     spec:
       containers:
       - name: jobeinabox-container
-        image: etutorplusplus/jobeinabox:latest
+        image: etutorplusplus/jobeinabox:20230829
         env:
-        - name: DISPATCHER_HOST
-          value: "10.78.59.72"
-        - name: DISPATCHER_PORT
-          value: "8081"
-
+        - name: SIM_JOBE_JOBS
+          value: "16"
+          
 ---
 
 apiVersion: v1
